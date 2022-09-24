@@ -10,9 +10,13 @@
 	<version>0.0.1</version>
 	<packaging>war</packaging>
 	<name>coffee</name>
+	
 	<!-- FIXME change it to the project's website -->
 	<url>https://blog.payara.fish/getting-started-with-jakarta-ee-9-hello-world</url>
-
+	
+	<!-- mvn archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-quickstart -->
+	
+	
 	<properties>
 		<failOnMissingWebXml>false</failOnMissingWebXml>
 		<maven.compiler.source>11</maven.compiler.source>
