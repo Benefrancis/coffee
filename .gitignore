@@ -1,7 +1,4 @@
-target/
-src/main/jbake/content/toc.adoc
-
-# Eclipse #
+ # Eclipse #
 .settings/
 *.classpath
 *.project

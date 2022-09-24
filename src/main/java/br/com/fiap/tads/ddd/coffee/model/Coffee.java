@@ -20,10 +20,20 @@ public class Coffee implements Serializable {
 	protected Double price;
 
 	public Coffee() {
-		// Required empty constructor.
+		super();
 	}
 
-	public Coffee(String name, Double price) {
+	public Coffee(@NotBlank(message = "Name cannot be blank.") String name,
+			@NotNull(message = "Price must be set.") @PositiveOrZero(message = "Price must be greater than or equal to zero.") Double price) {
+		super();
+		this.name = name;
+		this.price = price;
+	}
+
+	public Coffee(Long id, @NotBlank(message = "Name cannot be blank.") String name,
+			@NotNull(message = "Price must be set.") @PositiveOrZero(message = "Price must be greater than or equal to zero.") Double price) {
+		super();
+		this.id = id;
 		this.name = name;
 		this.price = price;
 	}

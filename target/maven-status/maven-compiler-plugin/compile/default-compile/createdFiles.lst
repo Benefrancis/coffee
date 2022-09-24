@@ -1,3 +1,6 @@
-br\com\fiap\tads\ddd\coffee\controller\CoffeeRestController.class
 br\com\fiap\tads\ddd\coffee\App.class
 br\com\fiap\tads\ddd\coffee\model\Coffee.class
+br\com\fiap\tads\ddd\coffee\model\repository\ConnectionFactory.class
+br\com\fiap\tads\ddd\coffee\model\repository\Repository.class
+br\com\fiap\tads\ddd\coffee\model\repository\CafeRepository.class
+br\com\fiap\tads\ddd\coffee\controller\CoffeeRestController.class
