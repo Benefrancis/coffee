@@ -53,6 +53,8 @@ Os links abaixo foram fontes de pesquisa para criação deste conteúdo:
 
     https://blog.payara.fish/getting-started-with-jakarta-ee-9-hello-world
     
+    https://docs.oracle.com/middleware/12212/wls/RESTF/intro-restful-service.htm
+    
     https://docs.oracle.com/middleware/12212/wls/RESTF/develop-restful-service.htm#RESTF208
  
     https://blog.payara.fish/getting-started-with-jakarta-ee-9-how-to-create-a-rest-api-with-jakarta-ee-9
