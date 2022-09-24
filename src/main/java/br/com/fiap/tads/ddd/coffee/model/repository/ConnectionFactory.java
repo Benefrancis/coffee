@@ -52,7 +52,7 @@ public final class ConnectionFactory {
 	 * @throws SQLException
 	 * @throws IOException
 	 */
-	public static ConnectionFactory getInstance()  {
+	public static ConnectionFactory getInstance() {
 
 		ConnectionFactory result = instance;
 
@@ -115,30 +115,36 @@ public final class ConnectionFactory {
 		synchronized (Connection.class) {
 
 			try {
-				
+
 				if (this.conexao != null && !this.conexao.isClosed()) {
 					return this.conexao;
 				}
 
-				if (this.getDriver()==null || this.getDriver().equals("")) {
-					System.out.println("\nInforme os dados de conex�o no arquivo application.properties [ datasource.driver-class-name ]");
-					throw new RuntimeException("Informe os dados de conexão no arquivo application.properties [ datasource.driver-class-name ]");
+				if (this.getDriver() == null || this.getDriver().equals("")) {
+					System.out.println(
+							"\nInforme os dados de conex�o no arquivo application.properties [ datasource.driver-class-name ]");
+					throw new RuntimeException(
+							"Informe os dados de conexão no arquivo application.properties [ datasource.driver-class-name ]");
 				}
-				
-				if(this.getUrl()==null||this.getUrl().equals("")) {
-					System.out.println("\nInforme os dados de conexão no arquivo application.properties [ datasource.url ]");
-					throw new RuntimeException("Informe os dados de conexão no arquivo application.properties [ datasource.url ]");
+
+				if (this.getUrl() == null || this.getUrl().equals("")) {
+					System.out.println(
+							"\nInforme os dados de conexão no arquivo application.properties [ datasource.url ]");
+					throw new RuntimeException(
+							"Informe os dados de conexão no arquivo application.properties [ datasource.url ]");
 				}
-				
-				if(this.getUser()==null|| this.getUser().equals("")) {
-					System.out.println("\nInforme os dados de conexão no arquivo application.properties [ datasource.username ]");
-					throw new RuntimeException("Informe os dados de conexão no arquivo application.properties [ datasource.username ]");
+
+				if (this.getUser() == null || this.getUser().equals("")) {
+					System.out.println(
+							"\nInforme os dados de conexão no arquivo application.properties [ datasource.username ]");
+					throw new RuntimeException(
+							"Informe os dados de conexão no arquivo application.properties [ datasource.username ]");
 				}
 
 				Class.forName(this.getDriver());
-				
+
 				this.conexao = DriverManager.getConnection(this.getUrl(), this.getUser(), this.getPass());
-				
+
 			} catch (ClassNotFoundException e) {
 				System.out.println("Não foi possível encotrar o driver de conexão: " + e.getMessage());
 				System.exit(1);

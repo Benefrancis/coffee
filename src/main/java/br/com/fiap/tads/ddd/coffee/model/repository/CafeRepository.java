@@ -1,6 +1,7 @@
 package br.com.fiap.tads.ddd.coffee.model.repository;
 
 import java.lang.invoke.MethodHandles;
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,7 +24,7 @@ public class CafeRepository extends Repository {
 		List<Coffee> retorno = new ArrayList<>();
 
 		String sql = "SELECT * from DDD_COFFEE";
-
+		logger.log(Level.INFO, sql);
 		PreparedStatement ps = null;
 
 		ResultSet rs = null;
@@ -59,33 +60,27 @@ public class CafeRepository extends Repository {
 	}
 
 	public static Coffee persistCoffee(Coffee coffee) {
+
 		logger.log(Level.INFO, "Persisting the new coffee {0}.", coffee);
 
-		String sql = "INSERT INTO DDD_COFFEE (ID, NAME, PRICE) VALUES (SQ_COFFEE.nextvalue,?,?)";
+		// Colocando SQL numa transaaction para pegar o id do café inserido
+		String sql = "begin INSERT INTO DDD_COFFEE ( id, NAME, PRICE) VALUES ( sq_coffee.nextval,?,?) returning id into ?;  end;";
 
-		ResultSet rs = null;
-
-		PreparedStatement ps = null;
-
+		CallableStatement s = null;
 		try {
-			ps = getConnection().prepareStatement(sql);
-			ps.setString(1, coffee.getName());
-			ps.setDouble(2, coffee.getPrice());
-			rs = ps.executeQuery();
-			if (rs.isBeforeFirst()) {
-				while (rs.next()) {
-					coffee.setId(rs.getLong("ID"));
-				}
-				return coffee;
-			} else {
-				return null;
-			}
+			s = getConnection().prepareCall(sql);
+			s.setString(1, coffee.getName());
+			s.setDouble(2, coffee.getPrice());
+			s.registerOutParameter(3, java.sql.Types.INTEGER);
+			s.executeUpdate();
+			coffee.setId((long) s.getInt(3));
+			return coffee;
 		} catch (SQLException e) {
-			System.out.println("Erro ao salvar o sorteio o banco de dados: " + e.getMessage());
+			System.out.println("Erro ao salvar o coffee o banco de dados: " + e.getMessage());
 		} finally {
 			try {
-				if (ps != null)
-					ps.close();
+				if (s != null)
+					s.close();
 			} catch (SQLException e) {
 				System.out.println("Erro ao tentar fechar o Statment ");
 			}
@@ -96,10 +91,16 @@ public class CafeRepository extends Repository {
 	public static boolean remove(Long id) {
 
 		logger.log(Level.INFO, "Removing a coffee {0}.", id);
-		Coffee coffee = findById(id);
+		Coffee coffee = null;
+
+		coffee = findById(id);
+
+		if (coffee == null) {
+			return false;
+		}
 
 		String sql = "DELETE FROM DDD_COFFEE where ID= ?";
-
+		logger.log(Level.INFO, sql);
 		PreparedStatement ps = null;
 
 		try {
@@ -125,7 +126,7 @@ public class CafeRepository extends Repository {
 		logger.log(Level.INFO, "Finding the coffee with id {0}.", id);
 
 		String sql = "SELECT * from DDD_COFFEE where id  =?";
-
+		logger.log(Level.INFO, sql);
 		PreparedStatement ps = null;
 
 		ResultSet rs = null;
@@ -160,6 +161,36 @@ public class CafeRepository extends Repository {
 
 		}
 
+		return null;
+	}
+
+	public static Coffee update(Coffee coffee) {
+
+		logger.log(Level.INFO, "Update coffee {0}.", coffee);
+
+		// Colocando SQL numa transaaction para pegar o id do café atualizado
+		String sql = "begin UPDATE DDD_COFFEE set NAME = ?,   PRICE = ?  where id = ? returning id into ?;  end;";
+
+		CallableStatement s = null;
+		try {
+			s = getConnection().prepareCall(sql);
+			s.setString(1, coffee.getName());
+			s.setDouble(2, coffee.getPrice());
+			s.setLong(3, coffee.getId());
+			s.registerOutParameter(4, java.sql.Types.INTEGER);
+			s.executeUpdate();
+			coffee.setId((long) s.getInt(4));
+			return coffee;
+		} catch (SQLException e) {
+			System.out.println("Erro ao atualizar o coffee no banco de dados: " + e.getMessage());
+		} finally {
+			try {
+				if (s != null)
+					s.close();
+			} catch (SQLException e) {
+				System.out.println("Erro ao tentar fechar o Statment ");
+			}
+		}
 		return null;
 	}
 

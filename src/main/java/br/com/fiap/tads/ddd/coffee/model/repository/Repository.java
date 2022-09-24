@@ -45,7 +45,7 @@ public class Repository {
 	/**
 	 * Fecha a conexão com o banco de dados
 	 */
-	public static  void closeConnection() {
+	public static void closeConnection() {
 
 		try {
 			// se a conexão não estiver fechada, feche-a
@@ -56,7 +56,5 @@ public class Repository {
 			System.out.println("Erro ao encerrar conex�o:" + " \n" + ex.getMessage());
 		}
 	}
-
-
 
 }

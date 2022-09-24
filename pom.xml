@@ -16,7 +16,6 @@
 	
 	<!-- mvn archetype:generate -DarchetypeGroupId=org.apache.maven.archetypes -DarchetypeArtifactId=maven-archetype-quickstart -->
 	
-	
 	<properties>
 		<failOnMissingWebXml>false</failOnMissingWebXml>
 		<maven.compiler.source>11</maven.compiler.source>
@@ -25,7 +24,6 @@
 	</properties>
 
 	<dependencies>
-
 
 		<dependency>
 			<groupId>jakarta.platform</groupId>
@@ -40,7 +38,6 @@
 			<artifactId>ojdbc8</artifactId>
 			<version>21.7.0.0</version>
 		</dependency>
-
 
 	</dependencies>
 
